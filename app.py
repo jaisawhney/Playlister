@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 
 # DB Setup
 client = MongoClient()
@@ -40,6 +41,12 @@ def playlists_submit():
     }
     playlists.insert_one(playlist)
     return redirect(url_for("playlists_index"))
+
+
+@app.route("/playlists/<string:playlist_id>")
+def playlist(playlist_id):
+    playlist = playlists.find_one({"_id": ObjectId(playlist_id)})
+    return render_template("playlists_show.html", playlist=playlist)
 
 
 if __name__ == "__main__":
