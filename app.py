@@ -26,7 +26,7 @@ def playlists_index():
 
 @app.route("/playlists/new")
 def playlists_new():
-    return render_template("playlists_new.html")
+    return render_template('playlists_new.html', playlist=None, title="New Playlist")
 
 
 @app.route("/playlists", methods=["POST"])
@@ -44,9 +44,34 @@ def playlists_submit():
 
 
 @app.route("/playlists/<string:playlist_id>")
-def playlist(playlist_id):
+def playlist_view(playlist_id):
     playlist = playlists.find_one({"_id": ObjectId(playlist_id)})
     return render_template("playlists_show.html", playlist=playlist)
+
+
+@app.route("/playlists/<string:playlist_id>", methods=["POST"])
+def update_playlist(playlist_id):
+    video_ids = request.form.get("video_ids").split()
+    videos = video_url_creator(video_ids)
+
+    updated_playlist = {
+        "title": request.form.get("title"),
+        "description": request.form.get("description"),
+        "videos": videos,
+        "video_ids": video_ids
+    }
+
+    playlists.update_one(
+        {"_id": ObjectId(playlist_id)},
+        {"$set": updated_playlist})
+
+    return redirect(url_for("playlist_view", playlist_id=playlist_id))
+
+
+@app.route("/playlists/<string:playlist_id>/edit")
+def edit_playlist(playlist_id):
+    playlist = playlists.find_one({"_id": ObjectId(playlist_id)})
+    return render_template('playlist_edit.html', playlist=playlist, title="Edit Playlist")
 
 
 if __name__ == "__main__":
