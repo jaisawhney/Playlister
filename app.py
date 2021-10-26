@@ -26,7 +26,7 @@ def playlists_index():
 
 @app.route("/playlists/new")
 def playlists_new():
-    return render_template('playlists_new.html', playlist=None, title="New Playlist")
+    return render_template("playlists_new.html", playlist=None, title="New Playlist")
 
 
 @app.route("/playlists", methods=["POST"])
@@ -71,7 +71,13 @@ def update_playlist(playlist_id):
 @app.route("/playlists/<string:playlist_id>/edit")
 def edit_playlist(playlist_id):
     playlist = playlists.find_one({"_id": ObjectId(playlist_id)})
-    return render_template('playlist_edit.html', playlist=playlist, title="Edit Playlist")
+    return render_template("playlist_edit.html", playlist=playlist, title="Edit Playlist")
+
+
+@app.route("/playlists/<playlist_id>/delete", methods=["POST"])
+def playlists_delete(playlist_id):
+    playlists.delete_one({"_id": ObjectId(playlist_id)})
+    return redirect(url_for("playlists_index"))
 
 
 if __name__ == "__main__":
