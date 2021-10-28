@@ -13,7 +13,7 @@ app = Flask(__name__)
 def video_url_creator(id_lst):
     videos = []
     for vid_id in id_lst:
-        video = "https://youtube.com/embed/" + vid_id
+        video = f"https://youtube.com/embed/{vid_id}"
         videos.append(video)
     return videos
 
@@ -26,7 +26,13 @@ def playlists_index():
 
 @app.route("/playlists/new")
 def playlists_new():
-    return render_template("playlists_new.html", playlist=None, title="New Playlist")
+    empty_playlist = {
+        "title": "",
+        "description": "",
+        "videos": [],
+        "video_ids": []
+    }
+    return render_template("playlists_new.html", playlist=empty_playlist, title="New Playlist")
 
 
 @app.route("/playlists", methods=["POST"])
@@ -52,12 +58,11 @@ def playlist_view(playlist_id):
 @app.route("/playlists/<string:playlist_id>", methods=["POST"])
 def update_playlist(playlist_id):
     video_ids = request.form.get("video_ids").split()
-    videos = video_url_creator(video_ids)
 
     updated_playlist = {
         "title": request.form.get("title"),
         "description": request.form.get("description"),
-        "videos": videos,
+        "videos": video_url_creator(video_ids),
         "video_ids": video_ids
     }
 
@@ -75,7 +80,7 @@ def edit_playlist(playlist_id):
 
 
 @app.route("/playlists/<playlist_id>/delete", methods=["POST"])
-def playlists_delete(playlist_id):
+def delete_playlist(playlist_id):
     playlists.delete_one({"_id": ObjectId(playlist_id)})
     return redirect(url_for("playlists_index"))
 
