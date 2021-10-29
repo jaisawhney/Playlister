@@ -26,13 +26,7 @@ def playlists_index():
 
 @app.route("/playlists/new")
 def playlists_new():
-    empty_playlist = {
-        "title": "",
-        "description": "",
-        "videos": [],
-        "video_ids": []
-    }
-    return render_template("playlists_new.html", playlist=empty_playlist, title="New Playlist")
+    return render_template("playlists_new.html", playlist=None, title="New Playlist")
 
 
 @app.route("/playlists", methods=["POST"])
