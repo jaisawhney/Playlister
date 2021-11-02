@@ -4,7 +4,7 @@
 <a href="/">Back to Home</a>
 <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
-        <h1>{{ playlist.title }}</h1>
+        <h1>{{ playlist.title or "No Title" }}</h1>
         <p>{{ playlist.description }}</p>
         {% for video in playlist.videos %}
         <div class="card bg-light">

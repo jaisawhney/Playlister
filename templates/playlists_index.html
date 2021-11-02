@@ -12,7 +12,8 @@
             <img class="card-img-top" src="https://img.youtube.com/vi/{{ playlist.video_ids[0] }}/0.jpg"
                  alt="Playlist image">
             <div class="card-body">
-                <h2 class="card-title"><a href="/playlists/{{ playlist._id }}">{{playlist.title}}</a></h2>
+
+                <h2 class="card-title"><a href="/playlists/{{ playlist._id }}">{{ playlist.title or "No Title" }}</a></h2>
                 <p class="card-text">{{ playlist.description }}</p>
             </div>
         </div>
