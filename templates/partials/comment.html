@@ -1,0 +1,9 @@
+{% for comment in comments %}
+<div class="card mt-2">
+    <div class="card-block p-1">
+        <h4 class="card-title">{{ comment.title }}</h4>
+        <p class="card-text">{{ comment.content }}</p>
+        <a href="#" class="btn btn-danger">Delete</a>
+    </div>
+</div>
+{% endfor %}
