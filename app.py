@@ -79,7 +79,7 @@ def edit_playlist(playlist_id):
     return render_template("playlist_edit.html", playlist=playlist, title="Edit Playlist")
 
 
-@app.route("/playlists/<playlist_id>/delete", methods=["POST"])
+@app.route("/playlists/<string:playlist_id>/delete", methods=["POST"])
 def delete_playlist(playlist_id):
     playlists.delete_one({"_id": ObjectId(playlist_id)})
     return redirect(url_for("playlists_index"))
@@ -96,9 +96,9 @@ def comments_new():
     return redirect(url_for("playlist_show", playlist_id=request.form.get("playlist_id")))
 
 
-@app.route("/playlists/comments/<string:comment_id>", methods=["POST"])
-def delete_comment(comment_id, playlist_id):
-    playlists.delete_one({"_id": ObjectId(playlist_id)})
+@app.route("/playlists/comments/<string:comment_id>/delete", methods=["POST"])
+def delete_comment(comment_id):
+    comments.delete_one({"_id": ObjectId(comment_id)})
     return redirect(url_for("playlist_show", playlist_id=request.form.get("playlist_id")))
 
 
