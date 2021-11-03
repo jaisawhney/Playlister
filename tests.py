@@ -77,6 +77,5 @@ class PlaylistsTests(TestCase):
         mock_delete.assert_called_with({"_id": sample_playlist_id})
 
 
-
 if __name__ == "__main__":
     unittest_main()
